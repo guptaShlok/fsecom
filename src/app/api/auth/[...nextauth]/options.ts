@@ -1,5 +1,7 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import NextAuth from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
+
 import { NextAuthOptions } from "next-auth";
 import bcrypt from "bcryptjs";
 import dbconnect from "@/lib/dbconnect";
@@ -31,9 +33,7 @@ export const authOptions: NextAuthOptions = {
             console.log("Error:usernot found");
             throw new Error("User not found");
           }
-          if (!user.isVerified) {
-            throw new Error("Verify before Login");
-          }
+
           const isPasswordCorrect = await bcrypt.compare(
             credentials.password,
             user.password
@@ -53,8 +53,6 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       if (token) {
         session.user._id = token._id;
-        session.user.isVerified = token.isVerified;
-        session.user.isAcceptingMessages = token.isAcceptingMessages;
         session.user.username = token.username;
       }
       return session;
@@ -62,8 +60,6 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token._id = user._id;
-        token.isVerified = user.isVerified;
-        token.isAcceptingMessages = user.isAcceptingMessages;
         token.username = user.username;
       }
       return token;

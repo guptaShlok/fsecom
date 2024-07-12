@@ -2,7 +2,7 @@ import mongoose, { Schema, Document } from "mongoose";
 
 export interface StoreModel extends Document {
   name: string;
-  userId: number;
+  userId: string;
   description?: string;
   reatedAt?: Date; // Optional, will be auto-managed
   updatedAt?: Date;
@@ -15,10 +15,8 @@ const ProductSchema: Schema<StoreModel> = new Schema(
       trim: true,
     },
     userId: {
-      type: Number,
+      type: String,
       required: [true, "user id for the product is required"],
-      min: [0, "Price cannot be negative"],
-      unique: true,
     },
     description: {
       type: String,

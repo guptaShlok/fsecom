@@ -33,11 +33,11 @@ export const StoreModal = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof storeformSchema>) {
+  async function onSubmit(values: z.infer<typeof storeformSchema>) {
     console.log(values);
     try {
       setloading(true);
-      const response = axios.post("/api/stores", values);
+      const response = await axios.post("/api/stores", values);
       console.log(response);
       toast({
         title: "Success",

@@ -1,4 +1,3 @@
-import { createResponse } from "@/helpers/response";
 import dbconnect from "@/lib/dbconnect";
 import { NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
@@ -15,11 +14,15 @@ export async function POST(request: NextRequest, response: NextApiResponse) {
     //Check if session is present or not
     if (!user || !session) {
       console.log("User not found");
-      return createResponse(response, {
-        success: false,
-        message: "User not found!",
-        status: 401,
-      });
+      return Response.json(
+        {
+          success: false,
+          message: "User not found!",
+        },
+        {
+          status: 401,
+        }
+      );
     }
 
     const body = await request.json();
@@ -29,43 +32,58 @@ export async function POST(request: NextRequest, response: NextApiResponse) {
 
     //checking if the store name is present or not
     if (!name) {
-      return createResponse(response, {
-        success: false,
-        message: "Name is required",
-        status: 400,
-      });
+      return Response.json(
+        {
+          success: false,
+          message: "Name is required",
+        },
+        {
+          status: 400,
+        }
+      );
     }
-
-    //checking if the store is already registered or not
-    const uniqueUser = await StoreModel.find({
-      name: name,
-    });
-    if (uniqueUser) {
-      return createResponse(response, {
-        success: false,
-        message: "Store has already been registered",
-        status: 400,
-      });
-    }
-
+    // //checking if the store is already registered or not
+    // const uniqueUser = await StoreModel.find({
+    //   name: name,
+    // });
+    // if (uniqueUser) {
+    //   return Response.json(
+    //     {
+    //       success: false,
+    //       message: "Store has already been registered",
+    //     },
+    //     {
+    //       status: 400,
+    //     }
+    //   );
+    // }
+    console.log("userId:", typeof user._id, user._id);
     const store = new StoreModel({
       name,
-      userId: user._id,
+      userId: user._id?.toString(),
       description,
     });
     console.log("New store:", store);
     await store.save();
-    return createResponse(response, {
-      success: true,
-      message: "New store created successfully",
-      status: 200,
-    });
+    return Response.json(
+      {
+        success: true,
+        message: "Product created successfully!",
+      },
+      {
+        status: 200,
+      }
+    );
   } catch (error) {
     console.log("Error in stores route", error);
-    return createResponse(response, {
-      success: false,
-      message: "Server error!",
-      status: 500,
-    });
+    return Response.json(
+      {
+        success: false,
+        message: "Internal server error!",
+      },
+      {
+        status: 500,
+      }
+    );
   }
 }

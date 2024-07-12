@@ -32,6 +32,7 @@ export async function POST(request: NextRequest) {
       password: hashedPassword,
     });
     console.log("newUser:", newUser);
+    await newUser.save();
 
     return Response.json(
       {

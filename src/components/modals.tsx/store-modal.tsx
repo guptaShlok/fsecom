@@ -1,10 +1,14 @@
 "use client";
-import { Modal } from "./modal";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import axios from "axios";
+import { useToast } from "../ui/use-toast";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+
 import { useStoreModal } from "@/hooks/use-store-model";
 import { storeformSchema } from "@/schemas/storeFormSchema";
+import { Modal } from "./modal";
 import {
   Form,
   FormControl,
@@ -16,19 +20,34 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-export const StoreModal = () => {
-  const storeModal = useStoreModal();
 
+export const StoreModal = () => {
+  const { toast } = useToast();
+  const storeModal = useStoreModal();
+  const [loading, setloading] = useState(false);
   const form = useForm<z.infer<typeof storeformSchema>>({
     resolver: zodResolver(storeformSchema),
     defaultValues: {
       name: "",
+      description: "",
     },
   });
 
   function onSubmit(values: z.infer<typeof storeformSchema>) {
     console.log(values);
-    //todo create store
+    try {
+      setloading(true);
+      const response = axios.post("/api/stores", values);
+      console.log(response);
+      toast({
+        title: "Success",
+        description: "Store created successfully!",
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setloading(false);
+    }
   }
   return (
     <>
@@ -48,7 +67,11 @@ export const StoreModal = () => {
                   <FormItem>
                     <FormLabel>Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Ecommerce" {...field} />
+                      <Input
+                        disabled={loading}
+                        placeholder="Ecommerce"
+                        {...field}
+                      />
                     </FormControl>
                     <FormDescription>
                       Enter the name for the store.
@@ -57,8 +80,22 @@ export const StoreModal = () => {
                   </FormItem>
                 )}
               />
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Description (optional)</FormLabel>
+                    <FormControl>
+                      <Input disabled={loading} placeholder="" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <div className=" pt-6 space-x-2 flex items-center justify-end">
                 <Button
+                  disabled={loading}
                   variant={"outline"}
                   onClick={() => {
                     storeModal.onClose;
@@ -67,6 +104,7 @@ export const StoreModal = () => {
                   Cancel
                 </Button>
                 <Button
+                  disabled={loading}
                   onClick={() => {
                     storeModal.onOpen;
                   }}

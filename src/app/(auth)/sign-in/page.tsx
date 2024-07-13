@@ -86,7 +86,9 @@ const signUp = () => {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-900">Email</FormLabel>
+                  <FormLabel className="text-gray-900">
+                    Email/Username
+                  </FormLabel>
                   <FormControl>
                     <Input
                       placeholder="gourvi gupta/gourvi@gmail.com"

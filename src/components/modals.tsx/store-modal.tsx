@@ -45,6 +45,11 @@ export const StoreModal = () => {
       });
     } catch (error) {
       console.log(error);
+      toast({
+        title: "Failed",
+        description: "Something went wrong",
+        variant: "destructive",
+      });
     } finally {
       setloading(false);
     }

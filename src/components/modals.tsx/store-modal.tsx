@@ -38,7 +38,7 @@ export const StoreModal = () => {
     try {
       setloading(true);
       const response = await axios.post("/api/stores", values);
-      console.log(response);
+      console.log("response:", response);
       toast({
         title: "Success",
         description: "Store created successfully!",
@@ -47,7 +47,7 @@ export const StoreModal = () => {
       console.log(error);
       toast({
         title: "Failed",
-        description: "Something went wrong",
+        description: "teri maa ki chut",
         variant: "destructive",
       });
     } finally {

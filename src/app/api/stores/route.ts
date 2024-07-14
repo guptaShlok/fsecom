@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/options";
 import { NextRequest } from "next/server";
 import StoreModel from "@/models/Storemodel";
+import Usermodel from "@/models/User";
 
 export async function POST(request: NextRequest, response: NextApiResponse) {
   await dbconnect();
@@ -26,7 +27,6 @@ export async function POST(request: NextRequest, response: NextApiResponse) {
     }
 
     const body = await request.json();
-    console.log(body);
 
     const { name, description } = body;
 
@@ -42,28 +42,28 @@ export async function POST(request: NextRequest, response: NextApiResponse) {
         }
       );
     }
-    // //checking if the store is already registered or not
-    // const uniqueUser = await StoreModel.find({
-    //   name: name,
-    // });
-    // if (uniqueUser) {
-    //   return Response.json(
-    //     {
-    //       success: false,
-    //       message: "Store has already been registered",
-    //     },
-    //     {
-    //       status: 400,
-    //     }
-    //   );
-    // }
-    console.log("userId:", typeof user._id, user._id);
+    //checking if the store is already registered or not
+    const uniqueUser = await StoreModel.find({
+      name: name,
+    });
+    console.log("Unique user:", uniqueUser);
+    if (uniqueUser.length > 0) {
+      return Response.json(
+        {
+          success: false,
+          message: "Store has already been registered",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
     const store = new StoreModel({
       name,
-      userId: user._id?.toString(),
+      userId: user._id,
       description,
     });
-    console.log("New store:", store);
     await store.save();
     return Response.json(
       {

@@ -4,7 +4,7 @@ export interface StoreModel extends Document {
   name: string;
   userId: string;
   description?: string;
-  reatedAt?: Date; // Optional, will be auto-managed
+  createdAt?: Date; // Optional, will be auto-managed
   updatedAt?: Date;
 }
 const ProductSchema: Schema<StoreModel> = new Schema(
@@ -13,10 +13,10 @@ const ProductSchema: Schema<StoreModel> = new Schema(
       type: String,
       required: [true, "Product name is required"],
       trim: true,
+      unique: true,
     },
     userId: {
       type: String,
-      required: [true, "user id for the product is required"],
     },
     description: {
       type: String,

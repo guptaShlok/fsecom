@@ -15,24 +15,21 @@ export default async function DashboardLayout({
     await dbconnect();
     const session = await getServerSession(authOptions);
     const user = session?.user;
-
+    console.log("User is present in the dashboard,", user);
     if (!user) {
       return redirect("/sign-in");
-    }
-
-    const store = await StoreModel.findOne({ userId: user._id });
-
-    if (!store) {
-      return redirect("/");
     }
   } catch (error) {
     console.log("Something went wrong:", error);
   }
 
-  return (
-    <>
-      This is going to be a navbar
-      {children}
-    </>
-  );
+  return <>{children}</>;
 }
+// export default function hello({ children }: { children: React.ReactNode }) {
+//   return (
+//     <>
+//       hello form the layout
+//       {children}
+//     </>
+//   );
+// }

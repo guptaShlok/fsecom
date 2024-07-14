@@ -57,7 +57,7 @@ const signUp = () => {
           title: "Sign In Successfull",
           description: "Welcome aboard",
         });
-        router.replace("/dashboard");
+        router.replace("/");
       }
     } catch (error) {
       console.log(error);

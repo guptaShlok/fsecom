@@ -22,20 +22,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  await dbconnect();
-  const session = await getServerSession(authOptions);
-  const user = session?.user;
-
-  if (!user) {
-    return redirect("/sign-in");
-  }
-
-  const store = await StoreModel.findOne({ userId: user._id });
-
-  if (store) {
-    return redirect(`/${store.id}`);
-  }
-
   return (
     <html lang="en">
       <Authprovider>

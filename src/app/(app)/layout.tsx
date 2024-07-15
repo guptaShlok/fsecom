@@ -4,13 +4,12 @@ import StoreModel from "@/models/Storemodel";
 import dbconnect from "@/lib/dbconnect";
 import { authOptions } from "../api/auth/[...nextauth]/options";
 
-export default async function RootLayout({
+export default async function AppLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   await dbconnect();
-
   const session = await getServerSession(authOptions);
   const user = session?.user;
 
@@ -18,16 +17,14 @@ export default async function RootLayout({
     redirect("/sign-in");
   }
 
-  const store = await StoreModel.findOne({ userId: user._id });
+  const store = (await StoreModel.findOne({ userId: user?._id })) || null;
+  console.log("Store in app layout", store);
 
   if (store) {
     console.log("redirecting to the dashboard");
-    redirect(`/dashboard/${store._id}`);
+    redirect(`/dashboard/${store?._id}`);
+  } else {
+    redirect("/");
   }
-
-  return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
-  );
+  return <>{children}</>;
 }

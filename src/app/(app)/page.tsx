@@ -14,17 +14,9 @@ const Page: React.FC = () => {
   }, [onOpen, isOpen]);
 
   return (
-    <div>
-      {/* Your page content here */}
-      {/* <Modal
-        title="Sample Modal"
-        description="This is a sample modal."
-        isOpen={isOpen}
-        onClose={useStoreModal((state) => state.onClose)}
-      >
-        <p>This is the modal content.</p>
-      </Modal> */}
-    </div>
+    <>
+      <div>Hehe</div>
+    </>
   );
 };
 

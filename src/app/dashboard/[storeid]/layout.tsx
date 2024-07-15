@@ -1,4 +1,5 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
+import Navbar from "@/components/Navbar";
 import dbconnect from "@/lib/dbconnect";
 import StoreModel from "@/models/Storemodel";
 import { getServerSession } from "next-auth";
@@ -51,5 +52,10 @@ export default async function DashboardLayout({
     return null; // Ensure it doesn't proceed after redirect
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      <Navbar />
+      {children}
+    </>
+  );
 }

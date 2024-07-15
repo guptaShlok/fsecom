@@ -10,13 +10,7 @@ const DashboardPage: React.FC<DashboardProps> = async ({ params }) => {
   const { storeId } = params;
   const store = await StoreModel.findById(storeId);
 
-  return (
-    <div>
-      Acive Store:{store?.name}
-      <br />
-      This is a dashboard
-    </div>
-  );
+  return <div></div>;
 };
 
 export default DashboardPage;

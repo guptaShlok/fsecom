@@ -1,13 +1,14 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document, ObjectId } from "mongoose";
 
-export interface StoreModel extends Document {
+export interface StoreModelType extends Document {
+  _id: ObjectId;
   name: string;
   userId: string;
   description?: string;
   createdAt?: Date; // Optional, will be auto-managed
   updatedAt?: Date;
 }
-const ProductSchema: Schema<StoreModel> = new Schema(
+const ProductSchema: Schema<StoreModelType> = new Schema(
   {
     name: {
       type: String,
@@ -27,7 +28,7 @@ const ProductSchema: Schema<StoreModel> = new Schema(
 );
 
 const StoreModel =
-  (mongoose.models.Product as mongoose.Model<StoreModel>) ||
-  mongoose.model<StoreModel>("Product", ProductSchema);
+  (mongoose.models.Product as mongoose.Model<StoreModelType>) ||
+  mongoose.model<StoreModelType>("Product", ProductSchema);
 
 export default StoreModel;

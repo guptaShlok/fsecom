@@ -24,7 +24,7 @@ const MainNav = ({
           className={cn(
             ` rounded-md text-sm font-medium ${
               route.Active
-                ? " text-black dark:text-gray-300"
+                ? " text-black dark:text-white"
                 : " text-muted-foreground"
             }`,
             className

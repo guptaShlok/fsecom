@@ -14,14 +14,8 @@ export default async function DashboardLayout({
 }) {
   await dbconnect();
 
-  // Log the entire params object
-  console.log("Params object:", params);
-
   // Extract storeId from params
   const { storeId } = params;
-
-  // Log the extracted storeId
-  console.log("Extracted storeId:", storeId);
 
   // If storeId is undefined, throw an error
   if (!storeId) {
@@ -32,8 +26,6 @@ export default async function DashboardLayout({
   const session = await getServerSession(authOptions);
   const user = session?.user;
 
-  console.log("User is present in the dashboard,", user);
-
   // If user is not present, redirect to sign-in page
   if (!user) {
     redirect("/sign-in");
@@ -43,11 +35,8 @@ export default async function DashboardLayout({
   // Query the StoreModel to check if the store exists
   const store = await StoreModel.findById(storeId);
 
-  console.log("Store in dashboard layout", store);
-
   // If no store is found, redirect to home page
   if (!store) {
-    console.log("Redirecting to home page");
     redirect("/");
     return null; // Ensure it doesn't proceed after redirect
   }

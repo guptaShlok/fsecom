@@ -18,10 +18,8 @@ export default async function AppLayout({
   }
 
   const store = (await StoreModel.findOne({ userId: user?._id })) || null;
-  console.log("Store in app layout", store);
 
   if (store) {
-    console.log("redirecting to the dashboard");
     redirect(`/dashboard/${store?._id}`);
   } else {
     redirect("/");

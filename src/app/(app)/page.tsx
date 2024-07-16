@@ -1,6 +1,7 @@
 "use client";
-import { Modal } from "@/components/modals.tsx/modal";
+import { Button } from "@/components/ui/button";
 import { useStoreModal } from "@/hooks/use-store-model";
+import { PlusCircleIcon } from "lucide-react";
 import React, { useEffect } from "react";
 
 const Page: React.FC = () => {
@@ -15,7 +16,9 @@ const Page: React.FC = () => {
 
   return (
     <>
-      <div>Hehe</div>
+      <Button variant={"ghost"}>
+        Create a Store <PlusCircleIcon />
+      </Button>
     </>
   );
 };

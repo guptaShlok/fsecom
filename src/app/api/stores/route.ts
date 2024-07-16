@@ -11,7 +11,6 @@ export async function POST(request: NextRequest, response: NextApiResponse) {
   try {
     const session = await getServerSession(authOptions);
     const user = session?.user;
-    console.log("USer in store route:", user);
     //Check if session is present or not
     if (!user || !session) {
       console.log("User not found");
@@ -69,6 +68,7 @@ export async function POST(request: NextRequest, response: NextApiResponse) {
       {
         success: true,
         message: "Product created successfully!",
+        store,
       },
       {
         status: 200,

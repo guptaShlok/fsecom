@@ -25,7 +25,6 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command";
-
 type PopOverTriggerProps = React.ComponentPropsWithoutRef<
   typeof PopoverTrigger
 >;
@@ -76,47 +75,46 @@ const StoreSwitcher = ({ className, items = [] }: StoreSwitchProps) => {
             <CommandEmpty>No Store Found</CommandEmpty>
             <CommandGroup heading="Stores">
               {formattedItems.map((store) => (
-                <Button
-                  key={store.value}
-                  onClick={() => {
-                    onStoreSelect(store);
-                    console.log("Selected store:", store);
-                  }}
-                  className="text-sm text-black"
-                >
-                  <StoreIcon className="mr-2 h-4 w-4" />
-                  {store.label}
-                  <Check
-                    className={`ml-auto h-4 w-4 ${
-                      currentStore?.value === store.value
-                        ? "opacity-100"
-                        : "opacity-0"
-                    }`}
-                  />
-                </Button>
+                <CommandItem key={store.value}>
+                  <Button
+                    variant={"ghost"}
+                    onClick={() => {
+                      onStoreSelect(store);
+                      console.log("Selected store:", store);
+                    }}
+                    className="text-sm w-full h-auto flex justify-start text-black"
+                  >
+                    <StoreIcon className="mr-2 h-4 w-4" />
+                    {store.label}
+                    <Check
+                      className={`ml-auto h-4 w-4 ${
+                        currentStore?.value === store.value
+                          ? "opacity-100"
+                          : "opacity-0"
+                      }`}
+                    />
+                  </Button>
+                </CommandItem>
               ))}
             </CommandGroup>
           </CommandList>
           <CommandSeparator />
           <CommandList className=" z-10">
             <CommandGroup>
-              <Button
-                onClick={() => {
-                  console.log("Maa chuda");
-                }}
-              >
-                Click me
-              </Button>
-              <Button
-                onClick={() => {
-                  storeModal.onOpen();
-                  setOpen(false);
-                  console.log("Clicked on Create Store");
-                }}
-              >
-                <PlusCircle className="mr-2 h-5 w-5" />
-                Create Store
-              </Button>
+              <CommandItem>
+                <Button
+                  variant={"ghost"}
+                  className=" w-full"
+                  onClick={() => {
+                    storeModal.onOpen();
+                    setOpen(false);
+                    console.log("Clicked on Create Store");
+                  }}
+                >
+                  <PlusCircle className="mr-2 h-5 w-5" />
+                  Create Store
+                </Button>
+              </CommandItem>
             </CommandGroup>
           </CommandList>
         </Command>
@@ -126,3 +124,4 @@ const StoreSwitcher = ({ className, items = [] }: StoreSwitchProps) => {
 };
 
 export default StoreSwitcher;
+//TODO:Minor ui changes in the button and close the modal when the form is completed

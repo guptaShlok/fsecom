@@ -1,6 +1,8 @@
+//TODO edit the modal such that if no store is present is automatically opens the store modal
+
 "use client";
 import { useState } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useToast } from "../ui/use-toast";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,8 +22,11 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export const StoreModal = () => {
+  const router = useRouter();
   const { toast } = useToast();
   const storeModal = useStoreModal();
   const [loading, setloading] = useState(false);
@@ -38,20 +43,45 @@ export const StoreModal = () => {
     try {
       setloading(true);
       const response = await axios.post("/api/stores", values);
-      console.log("response:", response);
-      toast({
-        title: "Success",
-        description: "Store created successfully!",
-      });
+      if (response.status == 400) {
+        toast({
+          title: "Failed",
+          description: "User already found with saem credentials",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Success",
+          description: "Store registered successfully",
+        });
+        storeModal.onClose();
+        router.push(`/dashboard/${response.data.store._id.toString()}`);
+      }
     } catch (error) {
-      console.log(error);
-      toast({
-        title: "Failed",
-        description: "teri maa ki chut",
-        variant: "destructive",
-      });
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 400) {
+          toast({
+            title: "Failed",
+            description: "Store already registered",
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "Failed",
+            description: "Something went wrong",
+            variant: "destructive",
+          });
+        }
+      } else {
+        toast({
+          title: "Failed",
+          description: "Something went wrong",
+          variant: "destructive",
+        });
+      }
     } finally {
       setloading(false);
+      storeModal.onClose();
     }
   }
   return (

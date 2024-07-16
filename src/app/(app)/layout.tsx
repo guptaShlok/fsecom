@@ -21,8 +21,6 @@ export default async function AppLayout({
 
   if (store) {
     redirect(`/dashboard/${store?._id}`);
-  } else {
-    redirect("/");
   }
   return <>{children}</>;
 }

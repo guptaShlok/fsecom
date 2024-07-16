@@ -80,9 +80,7 @@ const signUp = () => {
         title: "Success",
         description: response.data.message,
       });
-
-      //Reminder:Add the diverted route after signup
-      // router.replace(`verify-code/${data.username}`);
+      router.push("/sign-in");
     } catch (error: any) {
       console.error("Error signing up user:", error);
       const axiosError = error as AxiosError<ApiResponse>;

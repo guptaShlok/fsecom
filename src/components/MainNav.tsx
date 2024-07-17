@@ -12,7 +12,7 @@ const MainNav = ({
   const pathName = usePathname();
   const routes = [
     {
-      href: `/${params.storeId}/settings`,
+      href: `/dashboard/${params.storeId}/settings`,
       label: "Settings",
       Active: pathName === `/dashboard/${params.storeId}/settings`,
     },

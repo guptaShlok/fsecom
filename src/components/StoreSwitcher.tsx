@@ -124,4 +124,3 @@ const StoreSwitcher = ({ className, items = [] }: StoreSwitchProps) => {
 };
 
 export default StoreSwitcher;
-//TODO:Minor ui changes in the button and close the modal when the form is completed

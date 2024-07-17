@@ -1,5 +1,4 @@
-//TODO edit the modal such that if no store is present is automatically opens the store modal
-
+//TODO remove the console logs
 "use client";
 import { useState } from "react";
 import axios, { AxiosError } from "axios";

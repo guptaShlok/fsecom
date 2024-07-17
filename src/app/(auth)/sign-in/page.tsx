@@ -21,7 +21,7 @@ import { signInSchema } from "@/schemas/signInSchema";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 
-const signUp = () => {
+const SignIn = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   //implementing toast
@@ -147,4 +147,4 @@ const signUp = () => {
   );
 };
 
-export default signUp;
+export default SignIn;

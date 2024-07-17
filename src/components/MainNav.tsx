@@ -14,7 +14,7 @@ const MainNav = ({
     {
       href: `/${params.storeId}/settings`,
       label: "Settings",
-      Active: pathName === `/${params.storeId}/settings`,
+      Active: pathName === `/dashboard/${params.storeId}/settings`,
     },
   ];
   return (
@@ -22,11 +22,7 @@ const MainNav = ({
       {routes.map((route, index) => (
         <Link
           className={cn(
-            ` rounded-md text-sm font-medium ${
-              route.Active
-                ? " text-black dark:text-white"
-                : " text-muted-foreground"
-            }`,
+            ` rounded-md text-sm font-medium ${" text-white"}`,
             className
           )}
           key={index}

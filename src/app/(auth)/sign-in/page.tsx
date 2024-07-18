@@ -1,10 +1,12 @@
 "use client";
-import React, { ChangeEvent, useEffect, useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-import { useToast } from "@/components/ui/use-toast";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import * as z from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useToast } from "@/components/ui/use-toast";
+import Link from "next/link";
+
 import {
   Form,
   FormControl,
@@ -19,7 +21,6 @@ import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { signInSchema } from "@/schemas/signInSchema";
 import { signIn } from "next-auth/react";
-import Link from "next/link";
 
 const SignIn = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -148,5 +149,3 @@ const SignIn = () => {
 };
 
 export default SignIn;
-
-//TODO in every file organize the imports in a certain manner like all the import of custom components at the last and all the general imports at the top

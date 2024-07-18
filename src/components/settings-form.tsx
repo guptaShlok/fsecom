@@ -29,7 +29,7 @@ const SettingsForm: React.FC<SettingFormpage> = ({ initialData }) => {
   const form = useForm<z.infer<typeof dashboardSettingSchema>>({
     resolver: zodResolver(dashboardSettingSchema),
     defaultValues: {
-      name: initialData,
+      name: initialData.name,
     },
   });
   const onSubmit = async (data: z.infer<typeof dashboardSettingSchema>) => {
@@ -43,7 +43,10 @@ const SettingsForm: React.FC<SettingFormpage> = ({ initialData }) => {
           variant={"destructive"}
           className=" relative"
           size={"icon"}
-          onClick={() => {}}
+          disabled={loading}
+          onClick={() => {
+            setOpen(true);
+          }}
         >
           <Trash2 />
         </Button>
@@ -66,11 +69,13 @@ const SettingsForm: React.FC<SettingFormpage> = ({ initialData }) => {
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription></FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
+            <Button disabled={loading} className=" mt-3" type={"submit"}>
+              Save Changes
+            </Button>
           </form>
         </Form>
       </div>

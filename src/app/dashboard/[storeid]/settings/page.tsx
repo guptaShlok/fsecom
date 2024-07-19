@@ -15,17 +15,15 @@ const SettingsPage = async ({ params }: { params: { storeId: string } }) => {
     return null; // Ensure it doesn't proceed after redirect
   }
   const storeId = params.storeId;
-  const store = await StoreModel.findById(storeId);
-
+  const storeName = await StoreModel.findById(storeId);
   // If no store is found, redirect to home page
-  if (!store) {
+  if (!storeName) {
     redirect("/");
     return null; // Ensure it doesn't proceed after redirect
   }
-
   return (
     <div>
-      <SettingsForm initialData={store} />
+      <SettingsForm initialData={storeName} />
     </div>
   );
 };

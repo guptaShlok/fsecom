@@ -19,7 +19,6 @@ const Navbar = async () => {
   }
   const stores = await StoreModel.find({ userId: user?._id }).lean();
   const plainStores = stores.map((store) => JSON.parse(JSON.stringify(store)));
-  console.log("store from the navbar component", plainStores);
 
   return (
     <>

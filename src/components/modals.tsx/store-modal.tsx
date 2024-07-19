@@ -1,4 +1,3 @@
-//TODO remove the console logs
 "use client";
 import { useState } from "react";
 import axios, { AxiosError } from "axios";
@@ -38,7 +37,6 @@ export const StoreModal = () => {
   });
 
   async function onSubmit(values: z.infer<typeof storeformSchema>) {
-    console.log(values);
     try {
       setloading(true);
       const response = await axios.post("/api/stores", values);

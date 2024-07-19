@@ -1,46 +1,50 @@
 import dbconnect from "@/lib/dbconnect";
+import StoreModel from "@/models/Storemodel";
 import Usermodel from "@/models/User";
-import { NextRequest } from "next/server";
+import { ObjectId } from "mongodb";
+import { NextRequest, NextResponse } from "next/server"; // Import NextResponse
+
 export async function POST(request: NextRequest) {
   try {
     await dbconnect();
-    const { username } = await request.json();
-    const existingUsername = await Usermodel.findOne({
-      username,
-    });
+    const { name, _id } = await request.json();
+    const existingUsername = await Usermodel.findOne({ name });
 
-    //Checking if the username has already been taken
+    // Checking if the name has already been taken
     if (existingUsername) {
-      Response.json(
+      return NextResponse.json(
         {
           success: false,
-          message: "User credentials has already been registered",
+          message: "User credentials have already been registered",
         },
         { status: 400 }
       );
+    } else {
+      const userBhai = await StoreModel.findById(_id);
+      console.log("UserBhai:", userBhai);
+      const response = await StoreModel.updateOne(
+        { _id: new ObjectId(`${_id}`) }, // Ensure _id is an ObjectId
+        { $set: { name: `${name}` } }
+      );
+      console.log(response);
+
+      return NextResponse.json(
+        {
+          success: true,
+          message: "User name updated successfully",
+        },
+        { status: 200 }
+      );
     }
-
-    //registering new user
-
-    return Response.json(
-      {
-        success: true,
-        message: "User registered successfully",
-      },
-      {
-        status: 200,
-      }
-    );
   } catch (error) {
     console.error("Error changing the name of the user", error);
-    return Response.json(
+    return NextResponse.json(
       {
         success: false,
         message: "Error changing name!",
       },
-      {
-        status: 500,
-      }
+      { status: 500 }
     );
   }
 }
+//TODO update the mongo Database

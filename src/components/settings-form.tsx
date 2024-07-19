@@ -19,13 +19,17 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Input } from "./ui/input";
+import axios from "axios";
+import { useParams } from "next/navigation";
 interface SettingFormpage {
   initialData: StoreModelType;
 }
 const SettingsForm: React.FC<SettingFormpage> = ({ initialData }) => {
+  const params = useParams();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const { storeId } = params;
   const form = useForm<z.infer<typeof dashboardSettingSchema>>({
     resolver: zodResolver(dashboardSettingSchema),
     defaultValues: {
@@ -33,7 +37,15 @@ const SettingsForm: React.FC<SettingFormpage> = ({ initialData }) => {
     },
   });
   const onSubmit = async (data: z.infer<typeof dashboardSettingSchema>) => {
-    console.log("Hello world");
+    try {
+      const response = await axios.post("/api/setting", {
+        name: initialData.name,
+        _id: storeId,
+      });
+      console.log("Response", response);
+    } catch (error) {
+      console.log("ERor,", error);
+    }
   };
   return (
     <>

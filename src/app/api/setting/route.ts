@@ -26,8 +26,9 @@ export async function POST(request: NextRequest) {
         { _id: new ObjectId(`${_id}`) }, // Ensure _id is an ObjectId
         { $set: { name: `${name}` } }
       );
-      console.log(response);
 
+      const objectId = new ObjectId(_id);
+      console.log("object id", objectId, name);
       return NextResponse.json(
         {
           success: true,

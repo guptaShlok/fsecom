@@ -39,10 +39,13 @@ const SettingsForm: React.FC<SettingFormpage> = ({ initialData }) => {
   const onSubmit = async (data: z.infer<typeof dashboardSettingSchema>) => {
     try {
       const response = await axios.post("/api/setting", {
-        name: initialData.name,
+        name: data.name,
         _id: storeId,
       });
       console.log("Response", response);
+      if (response.status == 201) {
+        window.location.reload();
+      }
     } catch (error) {
       console.log("ERor,", error);
     }

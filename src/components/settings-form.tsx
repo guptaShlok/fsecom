@@ -42,8 +42,7 @@ const SettingsForm: React.FC<SettingFormpage> = ({ initialData }) => {
         name: data.name,
         _id: storeId,
       });
-      console.log("Response", response);
-      if (response.status == 201) {
+      if (response.status == 200) {
         window.location.reload();
       }
     } catch (error) {

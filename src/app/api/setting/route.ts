@@ -26,16 +26,24 @@ export async function POST(request: NextRequest) {
         { _id: new ObjectId(`${_id}`) }, // Ensure _id is an ObjectId
         { $set: { name: `${name}` } }
       );
-
-      const objectId = new ObjectId(_id);
-      console.log("object id", objectId, name);
-      return NextResponse.json(
-        {
-          success: true,
-          message: "User name updated successfully",
-        },
-        { status: 200 }
-      );
+      console.log("Response:", response);
+      if (response.modifiedCount == 1) {
+        return Response.json(
+          {
+            success: true,
+            message: "User name updated successfully",
+          },
+          { status: 200 }
+        );
+      } else {
+        return Response.json(
+          {
+            success: false,
+            message: "Username can't be changed",
+          },
+          { status: 401 }
+        );
+      }
     }
   } catch (error) {
     console.error("Error changing the name of the user", error);

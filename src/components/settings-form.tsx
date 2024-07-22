@@ -21,6 +21,7 @@ import * as z from "zod";
 import { Input } from "./ui/input";
 import axios from "axios";
 import { useParams } from "next/navigation";
+import { AlertModal } from "./modals.tsx/alert-modal";
 interface SettingFormpage {
   initialData: StoreModelType;
 }
@@ -55,6 +56,14 @@ const SettingsForm: React.FC<SettingFormpage> = ({ initialData }) => {
   };
   return (
     <>
+      <AlertModal
+        isOpen={open}
+        onClose={() => {
+          setOpen(false);
+        }}
+        onConfirm={() => {}}
+        loading={loading}
+      />
       <div className="flex items-center py-5 w-full px-10  justify-between gap-5">
         <Heading title="Settings" description="Manage Store preferences" />
         <Button

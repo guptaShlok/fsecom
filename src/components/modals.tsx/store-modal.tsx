@@ -22,6 +22,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
+import { LoaderPinwheel } from "lucide-react";
 
 export const StoreModal = () => {
   const router = useRouter();
@@ -142,7 +143,11 @@ export const StoreModal = () => {
                   }}
                   type="submit"
                 >
-                  Continue
+                  {loading ? (
+                    <LoaderPinwheel className=" animate-spin" />
+                  ) : (
+                    "Continue"
+                  )}
                 </Button>
               </div>
             </form>

@@ -3,7 +3,7 @@ import { StoreModelType } from "@/models/Storemodel";
 import React, { useState } from "react";
 import Heading from "./ui/heading";
 import { Button } from "./ui/button";
-import { Trash2 } from "lucide-react";
+import { LoaderPinwheel, Trash2 } from "lucide-react";
 import { Separator } from "./ui/separator";
 import {
   Form,
@@ -38,6 +38,7 @@ const SettingsForm: React.FC<SettingFormpage> = ({ initialData }) => {
   });
   const onSubmit = async (data: z.infer<typeof dashboardSettingSchema>) => {
     try {
+      setLoading(true);
       const response = await axios.post("/api/setting", {
         name: data.name,
         _id: storeId,
@@ -46,7 +47,10 @@ const SettingsForm: React.FC<SettingFormpage> = ({ initialData }) => {
         window.location.reload();
       }
     } catch (error) {
+      setLoading(true);
       console.log("ERor,", error);
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -88,7 +92,11 @@ const SettingsForm: React.FC<SettingFormpage> = ({ initialData }) => {
               )}
             />
             <Button disabled={loading} className=" mt-3" type={"submit"}>
-              Save Changes
+              {loading ? (
+                <LoaderPinwheel className=" animate-spin" />
+              ) : (
+                "Save Changes"
+              )}
             </Button>
           </form>
         </Form>

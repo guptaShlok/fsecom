@@ -56,4 +56,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-//TODO modify the return response such that if conditions can be applied

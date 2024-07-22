@@ -20,8 +20,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Input } from "./ui/input";
 import axios from "axios";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { AlertModal } from "./modals.tsx/alert-modal";
+import { useToast } from "./ui/use-toast";
 interface SettingFormpage {
   initialData: StoreModelType;
 }
@@ -29,8 +30,9 @@ const SettingsForm: React.FC<SettingFormpage> = ({ initialData }) => {
   const params = useParams();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const { toast } = useToast();
   const { storeId } = params;
+  const router = useRouter();
   const form = useForm<z.infer<typeof dashboardSettingSchema>>({
     resolver: zodResolver(dashboardSettingSchema),
     defaultValues: {
@@ -45,7 +47,44 @@ const SettingsForm: React.FC<SettingFormpage> = ({ initialData }) => {
         _id: storeId,
       });
       if (response.status == 200) {
+        toast({
+          title: "success",
+          description: "Name changed successfully",
+        });
         window.location.reload();
+      } else {
+        toast({
+          title: "Failed",
+          description: "User already found with saem credentials",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      setLoading(true);
+      console.log("ERor,", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const onDelete = async () => {
+    try {
+      console.log("Hello inside of the onDelete");
+      setLoading(true);
+      const response = await axios.post("/api/deleteStore", {
+        _id: storeId,
+      });
+      if (response.status == 200) {
+        toast({
+          title: "success",
+          description: "Store deleted successfully",
+        });
+        router.push("/");
+      } else {
+        toast({
+          title: "Failed",
+          description: "Something went wrong",
+          variant: "destructive",
+        });
       }
     } catch (error) {
       setLoading(true);
@@ -61,7 +100,9 @@ const SettingsForm: React.FC<SettingFormpage> = ({ initialData }) => {
         onClose={() => {
           setOpen(false);
         }}
-        onConfirm={() => {}}
+        onConfirm={() => {
+          onDelete();
+        }}
         loading={loading}
       />
       <div className="flex items-center py-5 w-full px-10  justify-between gap-5">
